@@ -14,11 +14,11 @@ import db.DbIntegrityException;
 import model.dao.LogInDao;
 import model.entities.LogIn;
 
-public class DepartmentDaoJDBC implements LogInDao {
+public class LogInDaoJDBC implements LogInDao {
 
 	private Connection conn;
 	
-	public DepartmentDaoJDBC(Connection conn) {
+	public LogInDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
 	
@@ -28,13 +28,13 @@ public class DepartmentDaoJDBC implements LogInDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM department WHERE Id = ?");
+				"SELECT * FROM log in WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
 				LogIn obj = new LogIn();
 				obj.setId(rs.getInt("Id"));
-				obj.setName(rs.getString("Name"));
+				obj.setName(rs.getString("User Name"));
 				return obj;
 			}
 			return null;
@@ -54,7 +54,7 @@ public class DepartmentDaoJDBC implements LogInDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM department ORDER BY Name");
+				"SELECT * FROM log in ORDER BY User Name");
 			rs = st.executeQuery();
 
 			List<LogIn> list = new ArrayList<>();
@@ -81,13 +81,14 @@ public class DepartmentDaoJDBC implements LogInDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO department " +
-				"(Name) " +
+				"INSERT INTO log in " +
+				"(User Name, Password) " +
 				"VALUES " +
-				"(?)", 
+				"(?, ?)", 
 				Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, obj.getName());
+			st.setString(2, obj.getPassword());
 
 			int rowsAffected = st.executeUpdate();
 			
@@ -115,12 +116,13 @@ public class DepartmentDaoJDBC implements LogInDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"UPDATE department " +
-				"SET Name = ? " +
+				"UPDATE log in " +
+				"SET User Name = ?, Password = ? " +
 				"WHERE Id = ?");
 
 			st.setString(1, obj.getName());
-			st.setInt(2, obj.getId());
+			st.setString(2, obj.getPassword());
+			st.setInt(3, obj.getId());
 
 			st.executeUpdate();
 		}
@@ -137,7 +139,7 @@ public class DepartmentDaoJDBC implements LogInDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"DELETE FROM department WHERE Id = ?");
+				"DELETE FROM log in WHERE Id = ?");
 
 			st.setInt(1, id);
 

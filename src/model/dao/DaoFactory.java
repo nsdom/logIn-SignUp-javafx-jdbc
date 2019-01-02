@@ -1,7 +1,7 @@
 package model.dao;
 
 import db.DB;
-import model.dao.impl.DepartmentDaoJDBC;
+import model.dao.impl.LogInDaoJDBC;
 import model.dao.impl.SignUpDaoJDBC;
 
 public class DaoFactory {
@@ -11,6 +11,6 @@ public class DaoFactory {
 	}
 	
 	public static LogInDao createDepartmentDao() {
-		return new DepartmentDaoJDBC(DB.getConnection());
+		return new LogInDaoJDBC(DB.getConnection());
 	}
 }

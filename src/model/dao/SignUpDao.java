@@ -2,7 +2,6 @@ package model.dao;
 
 import java.util.List;
 
-import model.entities.LogIn;
 import model.entities.SignUp;
 
 public interface SignUpDao {
@@ -12,5 +11,4 @@ public interface SignUpDao {
 	void deleteById(Integer id);
 	SignUp findById(Integer id);
 	List<SignUp> findAll();
-	List<SignUp> findByDepartment(LogIn department);
 }
