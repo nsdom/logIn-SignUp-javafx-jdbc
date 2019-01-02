@@ -11,10 +11,10 @@ import java.util.List;
 import db.DB;
 import db.DbException;
 import db.DbIntegrityException;
-import model.dao.DepartmentDao;
-import model.entities.Department;
+import model.dao.LogInDao;
+import model.entities.LogIn;
 
-public class DepartmentDaoJDBC implements DepartmentDao {
+public class DepartmentDaoJDBC implements LogInDao {
 
 	private Connection conn;
 	
@@ -23,7 +23,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 	}
 	
 	@Override
-	public Department findById(Integer id) {
+	public LogIn findById(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -32,7 +32,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Department obj = new Department();
+				LogIn obj = new LogIn();
 				obj.setId(rs.getInt("Id"));
 				obj.setName(rs.getString("Name"));
 				return obj;
@@ -49,7 +49,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 	}
 
 	@Override
-	public List<Department> findAll() {
+	public List<LogIn> findAll() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -57,10 +57,10 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 				"SELECT * FROM department ORDER BY Name");
 			rs = st.executeQuery();
 
-			List<Department> list = new ArrayList<>();
+			List<LogIn> list = new ArrayList<>();
 
 			while (rs.next()) {
-				Department obj = new Department();
+				LogIn obj = new LogIn();
 				obj.setId(rs.getInt("Id"));
 				obj.setName(rs.getString("Name"));
 				list.add(obj);
@@ -77,7 +77,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 	}
 
 	@Override
-	public void insert(Department obj) {
+	public void insert(LogIn obj) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
@@ -111,7 +111,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 	}
 
 	@Override
-	public void update(Department obj) {
+	public void update(LogIn obj) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
