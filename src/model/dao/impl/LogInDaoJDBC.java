@@ -28,13 +28,14 @@ public class LogInDaoJDBC implements LogInDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM log in WHERE Id = ?");
+				"SELECT * FROM login WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
 				LogIn obj = new LogIn();
 				obj.setId(rs.getInt("Id"));
-				obj.setName(rs.getString("User Name"));
+				obj.setUsername(rs.getString("Username"));
+				obj.setPassword("Not available");
 				return obj;
 			}
 			return null;
@@ -54,7 +55,7 @@ public class LogInDaoJDBC implements LogInDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM log in ORDER BY User Name");
+				"SELECT * FROM login ORDER BY Username");
 			rs = st.executeQuery();
 
 			List<LogIn> list = new ArrayList<>();
@@ -62,7 +63,7 @@ public class LogInDaoJDBC implements LogInDao {
 			while (rs.next()) {
 				LogIn obj = new LogIn();
 				obj.setId(rs.getInt("Id"));
-				obj.setName(rs.getString("Name"));
+				obj.setUsername(rs.getString("Username"));
 				list.add(obj);
 			}
 			return list;
@@ -81,13 +82,13 @@ public class LogInDaoJDBC implements LogInDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"INSERT INTO log in " +
-				"(User Name, Password) " +
+				"INSERT INTO login " +
+				"(Username, Password) " +
 				"VALUES " +
 				"(?, ?)", 
 				Statement.RETURN_GENERATED_KEYS);
 
-			st.setString(1, obj.getName());
+			st.setString(1, obj.getUsername());
 			st.setString(2, obj.getPassword());
 
 			int rowsAffected = st.executeUpdate();
@@ -116,11 +117,11 @@ public class LogInDaoJDBC implements LogInDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"UPDATE log in " +
-				"SET User Name = ?, Password = ? " +
+				"UPDATE login " +
+				"SET Username = ?, Password = ? " +
 				"WHERE Id = ?");
 
-			st.setString(1, obj.getName());
+			st.setString(1, obj.getUsername());
 			st.setString(2, obj.getPassword());
 			st.setInt(3, obj.getId());
 
@@ -135,11 +136,11 @@ public class LogInDaoJDBC implements LogInDao {
 	}
 
 	@Override
-	public void deleteById(Integer id) {
+	public void deleteById(int id) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"DELETE FROM log in WHERE Id = ?");
+				"DELETE FROM login WHERE Id = ?");
 
 			st.setInt(1, id);
 

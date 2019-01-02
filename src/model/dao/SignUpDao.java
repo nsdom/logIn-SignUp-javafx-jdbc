@@ -8,7 +8,7 @@ public interface SignUpDao {
 
 	void insert(SignUp obj);
 	void update(SignUp obj);
-	void deleteById(Integer id);
+	/*void deleteById(Integer id);*/
 	SignUp findById(Integer id);
 	List<SignUp> findAll();
 }

@@ -30,8 +30,8 @@ public class SignUpDaoJDBC implements SignUpDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-					"INSERT INTO sign up "
-					+ "(First Name, Last Name, Email, Phone Number, Birth Date, Age, Gender, LogIn_Id) "
+					"INSERT INTO signup "
+					+ "(Firstname, Lastname, Email, Phone, BirthDate, Age, Gender, login_Id) "
 					+ "VALUES "
 					+ "(?, ?, ?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
@@ -72,8 +72,8 @@ public class SignUpDaoJDBC implements SignUpDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-					"UPDATE sign up "
-					+ "SET First Name = ?, Last Name = ?, Email = ?, Phone Number = ?, BirthDate = ?, Age = ?, Gender = ? "
+					"UPDATE signup "
+					+ "SET Firstname = ?, Lastname = ?, Email = ?, Phone = ?, BirthDate = ?, Age = ?, Gender = ? "
 					+ "WHERE Id = ?");
 			
 			st.setString(1, obj.getFirstName());
@@ -94,7 +94,7 @@ public class SignUpDaoJDBC implements SignUpDao {
 			DB.closeStatement(st);
 		}
 	}
-
+	/*
 	@Override
 	public void deleteById(Integer id) {
 		PreparedStatement st = null;
@@ -111,7 +111,7 @@ public class SignUpDaoJDBC implements SignUpDao {
 		finally {
 			DB.closeStatement(st);
 		}
-	}
+	}*/
 
 	@Override
 	public SignUp findById(Integer id) {
@@ -119,10 +119,10 @@ public class SignUpDaoJDBC implements SignUpDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT sign up.*,log in.User Name as LogName "
-					+ "FROM sign up INNER JOIN log in "
-					+ "ON sign up.Log In_Id = log in.Id "
-					+ "WHERE sign up.Id = ?");
+					"SELECT signup.*,login.Username as LogName "
+					+ "FROM signup INNER JOIN login "
+					+ "ON signup.login_Id = login.Id "
+					+ "WHERE signup.Id = ?");
 			
 			st.setInt(1, id);
 			rs = st.executeQuery();
@@ -145,11 +145,11 @@ public class SignUpDaoJDBC implements SignUpDao {
 	private SignUp instantiateSignUp(ResultSet rs, LogIn logIn) throws SQLException {
 		SignUp obj = new SignUp();
 		obj.setId(rs.getInt("Id"));
-		obj.setFirstName(rs.getString("First Name"));
-		obj.setLastName(rs.getString("Last Name"));
+		obj.setFirstName(rs.getString("Firstname"));
+		obj.setLastName(rs.getString("Lastname"));
 		obj.setEmail(rs.getString("Email"));
-		obj.setPhoneNumber(rs.getInt("Phone Number"));
-		obj.setBirthDate(rs.getDate("Birth Date"));
+		obj.setPhoneNumber(rs.getInt("Phone"));
+		obj.setBirthDate(rs.getDate("BirthDate"));
 		obj.setAge(rs.getInt("Age"));
 		obj.setGender(rs.getString("Gender"));
 		obj.setLogIn(logIn);
@@ -159,8 +159,8 @@ public class SignUpDaoJDBC implements SignUpDao {
 
 	private LogIn instantiateLogIn(ResultSet rs) throws SQLException {
 		LogIn logIn = new LogIn();
-		logIn.setId(rs.getInt("Log In_Id"));
-		logIn.setName(rs.getString("LogName"));
+		logIn.setId(rs.getInt("login_Id"));
+		logIn.setUsername(rs.getString("LogName"));
 		return logIn;
 	}
 
@@ -170,10 +170,10 @@ public class SignUpDaoJDBC implements SignUpDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT log in.*,sign up.First Name as logName "
-					+ "FROM sign up INNER JOIN log in "
-					+ "ON sign up.Log In_Id = log in.Id "
-					+ "ORDER BY First Name");
+					"SELECT login.*,signup.Firstname as logName "
+					+ "FROM signup INNER JOIN login "
+					+ "ON signup.login_Id = login.Id "
+					+ "ORDER BY Firstname");
 			
 			rs = st.executeQuery();
 			
@@ -182,11 +182,11 @@ public class SignUpDaoJDBC implements SignUpDao {
 			
 			while (rs.next()) {
 				
-				LogIn logIn = map.get(rs.getInt("Log In_Id"));
+				LogIn logIn = map.get(rs.getInt("login_Id"));
 				
 				if (logIn == null) {
 					logIn = instantiateLogIn(rs);
-					map.put(rs.getInt("Log In_Id"), logIn);
+					map.put(rs.getInt("login_Id"), logIn);
 				}
 				
 				SignUp obj = instantiateSignUp(rs, logIn);

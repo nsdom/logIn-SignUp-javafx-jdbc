@@ -7,15 +7,15 @@ public class LogIn implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	private String name;
+	private String username;
 	private String password;
 	
 	public LogIn() {
 	}
 
-	public LogIn(Integer id, String name, String password) {
+	public LogIn(Integer id, String username, String password) {
 		this.id = id;
-		this.name = name;
+		this.username = username;
 		this.password = password;
 	}
 
@@ -27,12 +27,12 @@ public class LogIn implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -70,7 +70,7 @@ public class LogIn implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LogIn [id=" + id + ", name=" + name + ", password=" + password + "]";
+		return "LogIn [id=" + id + ", name=" + username + ", password=" + password + "]";
 	}
 
 

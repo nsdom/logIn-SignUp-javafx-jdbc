@@ -8,7 +8,8 @@ public interface LogInDao {
 
 	void insert(LogIn obj);
 	void update(LogIn obj);
-	void deleteById(Integer id);
+	void deleteById(int id);
 	LogIn findById(Integer id);
 	List<LogIn> findAll();
+
 }

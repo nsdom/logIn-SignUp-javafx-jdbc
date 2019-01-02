@@ -6,7 +6,7 @@ import model.dao.impl.SignUpDaoJDBC;
 
 public class DaoFactory {
 
-	public static SignUpDao createSellerDao() {
+	public static SignUpDao createSignUpDao() {
 		return new SignUpDaoJDBC(DB.getConnection());
 	}
 	
